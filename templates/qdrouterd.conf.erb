@@ -1,0 +1,111 @@
+##
+## Licensed to the Apache Software Foundation (ASF) under one
+## or more contributor license agreements.  See the NOTICE file
+## distributed with this work for additional information
+## regarding copyright ownership.  The ASF licenses this file
+## to you under the Apache License, Version 2.0 (the
+## "License"); you may not use this file except in compliance
+## with the License.  You may obtain a copy of the License at
+##
+##   http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing,
+## software distributed under the License is distributed on an
+## "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+## KIND, either express or implied.  See the License for the
+## specific language governing permissions and limitations
+## under the License
+##
+
+# See the qdrouterd.conf (5) manual page for information about this
+# file's format and options.
+container {
+    worker-threads: <%= scope.lookupvar('qpid::router::worker_threads') %>
+    container-name: <%= scope.lookupvar('qpid::router::container_name') %>
+}
+
+router {
+    mode: <%= scope.lookupvar('qpid::router::router_mode') %>
+    router-id: <%= scope.lookupvar('qpid::router::router_id') %>
+}
+
+<% if scope.lookupvar('qpid::router::ssl') -%>
+ssl-profile {
+    name: <%= scope.lookupvar('qpid::router::ssl_profile_name') %>
+    cert-db: <%= scope.lookupvar('qpid::router::ssl_ca_cert') %>
+    cert-file: <%= scope.lookupvar('qpid::router::ssl_cert') %>
+    key-file: <%= scope.lookupvar('qpid::router::ssl_key') %>
+<% if scope.lookupvar('qpid::router::password') -%>
+    password: <%= scope.lookupvar('qpid::router::password') %>
+<% end -%>
+}
+<% end -%>
+
+<% if scope.lookupvar('qpid::router::hub') -%>
+listener {
+    addr: <%= scope.lookupvar('qpid::router::hub_addr') %>
+    port: <%= scope.lookupvar('qpid::router::hub_port') %>
+    sasl-mechanisms: <%= scope.lookupvar('qpid::router::hub_sasl_mech') %>
+    role: <%= scope.lookupvar('qpid::router::hub_role') %>
+<% if scope.lookupvar('qpid::router::ssl') -%>
+    ssl-profile: <%= scope.lookupvar('qpid::router::ssl_profile_name') %>
+<% end -%>
+}
+<% end -%>
+
+<% if scope.lookupvar('qpid::router::connector') -%>
+connector {
+    name: <%= scope.lookupvar('qpid::router::connector_name') %>
+    addr: <%= scope.lookupvar('qpid::router::connector_addr') %>
+    port: <%= scope.lookupvar('qpid::router::connector_port') %>
+    sasl-mechanisms: <%= scope.lookupvar('qpid::router::connector_sasl_mech') %>
+    role: <%= scope.lookupvar('qpid::router::connector_role') %>
+<% if scope.lookupvar('qpid::router::ssl') -%>
+    ssl-profile: <%= scope.lookupvar('qpid::router::ssl_profile_name') %>
+<% end -%>
+}
+<% end -%>
+
+<% if scope.lookupvar('qpid::router::listener') -%>
+listener {
+    addr: <%= scope.lookupvar('qpid::router::listener_addr') %>
+    port: <%= scope.lookupvar('qpid::router::listener_port') %>
+    sasl-mechanisms: <%= scope.lookupvar('qpid::router::listener_sasl_mech') %>
+<% if scope.lookupvar('qpid::router::ssl') -%>
+    ssl-profile: <%= scope.lookupvar('qpid::router::ssl_profile_name') %>
+<% end -%>
+}
+<% end -%>
+
+fixed-address {
+    prefix: /closest
+    fanout: single
+    bias: closest
+}
+
+fixed-address {
+    prefix: /unicast
+    fanout: single
+    bias: closest
+}
+
+fixed-address {
+    prefix: /exclusive
+    fanout: single
+    bias: closest
+}
+
+fixed-address {
+    prefix: /multicast
+    fanout: multiple
+}
+
+fixed-address {
+    prefix: /broadcast
+    fanout: multiple
+}
+
+fixed-address {
+    prefix: /
+    fanout: multiple
+}

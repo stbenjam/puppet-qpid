@@ -1,6 +1,6 @@
 {
   "name": "katello-qpid",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Katello",
   "summary": "Qpid message bus configuration",
   "license": "GPLv3+",
@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 3.0.0"
     }
   ]
 }
