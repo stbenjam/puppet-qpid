@@ -36,6 +36,9 @@
 # $user_groups::              Additional user groups to add the qpidd user to
 #                             type:array
 #
+# $server_packages::          List of server packages to install
+#                             type:array
+#
 class qpid (
   $auth                    = $qpid::params::auth,
   $config_file             = $qpid::params::config_file,
