@@ -48,6 +48,7 @@ class qpid (
   $ssl_cert_name           = $qpid::params::ssl_cert_name,
   $ssl_require_client_auth = $qpid::params::qpid::ssl_require_client_auth,
   $user_groups             = $qpid::params::user_groups,
+  $server_packages         = $qpid::params::server_packages,
 ) inherits qpid::params {
 
   validate_string($log_level)
